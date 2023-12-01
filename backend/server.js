@@ -26,17 +26,17 @@ app.use("/api/categories", categoryRoutes);
 
 /* MongoDB connection */
 const uri =
-  "mongodb+srv://1234:santosh@cluster0.f8zvrx8.mongodb.net/?retryWrites=true&w=majority";
-mongoose
-  .connect(uri)
-  .then(() => console.log("Db connect"))
-  .catch((error) => {
-    console.log("ISSUE");
-    console.log(error.message);
-    process.exit(1);
-  });
-app.get("/", (req, res) => {
-  res.status(200).send("Welcome to LibraryApp");
+  "mongodb+srv://1234:santosh@cluster0.f8zvrx8.mongodb.net/test?retryWrites=true&w=majority";
+mongoose.connect(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+const db = mongoose.connection;
+
+db.on("error", console.error.bind(console, "MongoDB connection error:"));
+db.once("open", () => {
+  console.log("Connected to MongoDB successfully!");
 });
 
 /* Port Listening In */
